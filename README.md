@@ -21,6 +21,9 @@ Usage
 Open http://localhost:3000 in your browser.
 Enter a city name to view the weather.
 
+Screenshot
+![Weather App Screenshot](screenshot.png)
+
 Technologies
 
 React
