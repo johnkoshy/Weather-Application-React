@@ -15,7 +15,7 @@ function App() {
     Snow: "/videos/snow.mp4",
     Thunderstorm: "/videos/thunderstorm.mp4",
     Drizzle: "/videos/drizzle.mp4",
-    Default: "/videos/default1.mp4",
+    Default: "/videos/default.mp4",
     Haze: "/videos/drizzle.mp4",
   };
 
