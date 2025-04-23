@@ -12,6 +12,8 @@ function App() {
   const [forecast, setForecast] = useState([]);
   // State to store error messages for user feedback
   const [error, setError] = useState("");
+  // State to store temperature unit (metric for Celsius, imperial for Fahrenheit)
+  const [unit, setUnit] = useState("metric");
 
   // Object mapping weather conditions to background video paths
   const weatherVideos = {
@@ -26,8 +28,8 @@ function App() {
   };
 
   // API URLs for current weather and 5-day forecast using OpenWeatherMap
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=8899465d3193e9d2936bf752c2e263f7`;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=8899465d3193e9d2936bf752c2e263f7`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${unit}&appid=8899465d3193e9d2936bf752c2e263f7`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=${unit}&appid=8899465d3193e9d2936bf752c2e263f7`;
 
   // Function to handle location search when user presses Enter
   const searchLocation = (event) => {
@@ -85,6 +87,52 @@ function App() {
     }
   };
 
+  // Function to toggle between Celsius and Fahrenheit
+  const toggleUnit = () => {
+    const newUnit = unit === "metric" ? "imperial" : "metric";
+    setUnit(newUnit);
+    // Re-fetch weather data if a location is already selected
+    if (data.name) {
+      axios
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${data.name}&units=${newUnit}&appid=8899465d3193e9d2936bf752c2e263f7`)
+        .then((response) => {
+          setData(response.data);
+          setError("");
+
+          // Re-fetch forecast data
+          axios
+            .get(`https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=${newUnit}&appid=8899465d3193e9d2936bf752c2e263f7`)
+            .then((forecastResponse) => {
+              const list = forecastResponse.data.list;
+              const uniqueDates = new Map();
+
+              list.forEach((item) => {
+                const date = new Date(item.dt * 1000)
+                  .toISOString()
+                  .split("T")[0];
+                if (!uniqueDates.has(date)) {
+                  uniqueDates.set(date, item);
+                }
+              });
+              setForecast(Array.from(uniqueDates.values()).slice(0, 5));
+            })
+            .catch(() => {
+              setError("Failed to fetch forecast data. Please try again.");
+              setForecast([]);
+            });
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            setError("Location not found. Please try again.");
+          } else {
+            setError("An error occurred. Please try again.");
+          }
+          setData({});
+          setForecast([]);
+        });
+    }
+  };
+
   // Function to determine the background video based on current weather
   const getWeatherVideo = () => {
     if (data.weather && data.weather[0]) {
@@ -105,7 +153,7 @@ function App() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Search bar for location input */}
+      {/* Search bar and unit toggle */}
       <div className="search">
         <input
           value={location}
@@ -115,6 +163,9 @@ function App() {
           type="text"
           autoFocus // Automatically focus the input on page load
         />
+        <button onClick={toggleUnit} className="toggle-unit">
+          Switch to {unit === "metric" ? "Fahrenheit" : "Celsius"}
+        </button>
         <div>{error && <p className="error">{error}</p>}</div>
       </div>
 
@@ -136,7 +187,7 @@ function App() {
           </div>
           {/* Current temperature */}
           <div className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}
+            {data.main ? <h1>{data.main.temp.toFixed()}{unit === "metric" ? "°C" : "°F"}</h1> : null}
           </div>
           {/* Weather description */}
           <div className="description">
@@ -149,19 +200,19 @@ function App() {
           <div className="bottom">
             <div className="feels">
               {data.main ? (
-                <p className="bold">{data.main.feels_like}°C</p>
+                <p className="bold">{data.main.feels_like.toFixed()}{unit === "metric" ? "°C" : "°F"}</p>
               ) : null}
               <p>Feels Like</p>
             </div>
             <div className="humidity">
               {data.main ? (
-                <p className="bold">{data.main.humidity}°C</p>
+                <p className="bold">{data.main.humidity}%</p>
               ) : null}
               <p>Humidity</p>
             </div>
             <div className="wind">
               {data.main ? (
-                <p className="bold">{data.wind.speed} MPH</p>
+                <p className="bold">{data.wind.speed} {unit === "metric" ? "m/s" : "MPH"}</p>
               ) : null}
               <p>Wind Speed</p>
             </div>
@@ -176,7 +227,7 @@ function App() {
             {/* Forecast date */}
             <p>{new Date(item.dt * 1000).toLocaleDateString()}</p>
             {/* Forecast temperature */}
-            <p>{item.main.temp.toFixed()}°C</p>
+            <p>{item.main.temp.toFixed()}{unit === "metric" ? "°C" : "°F"}</p>
             {/* Forecast weather icon */}
             <img
               src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`}
