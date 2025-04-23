@@ -12,10 +12,10 @@ Dynamic background videos based on weather conditions.
 
 Installation
 
-Clone the repository:git clone https://github.com/your-username/weather-app-react.git
+Clone the repository:git clone https://github.com/johnkoshy/Weather-Application-React.git
 
 
-Navigate to the project directory:cd weather-app-react
+Navigate to the project directory:cd Weather-Application-React
 
 
 Install dependencies:npm install
