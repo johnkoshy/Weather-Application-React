@@ -113,6 +113,7 @@ function App() {
           onKeyDown={searchLocation}
           placeholder="Enter Location"
           type="text"
+          autoFocus // Automatically focus the input on page load
         />
         <div>{error && <p className="error">{error}</p>}</div>
       </div>
