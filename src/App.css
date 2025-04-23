@@ -25,4 +25,68 @@
     color: red;
     font-weight: bold;
   }
-  
+  /* Stylish toggle button for switching between Celsius and Fahrenheit */
+.toggle-unit {
+  margin-left: 12px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a); /* Blue gradient to stand out against video */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect: brighter gradient and slight lift */
+.toggle-unit:hover {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Active effect: subtle press-down */
+.toggle-unit:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the search container to align input and button */
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+/* Style the search input for consistency with the toggle button */
+.search input {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  width: 200px;
+  background: rgba(22, 20, 20, 0.9);
+  color: #eceef3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .search {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .toggle-unit {
+    margin-left: 0;
+    width: 100%;
+    max-width: 200px;
+  }
+  .search input {
+    width: 100%;
+    max-width: 200px;
+  }
+}
