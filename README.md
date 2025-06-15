@@ -27,7 +27,7 @@ A simple React application that displays real-time weather information using the
 ## Screenshots
 | Weather Dashboard |
 |-------------------|
-| <img src="screenshots/screenshot.png" alt="Weather App Screenshot" width="300"/> |
+| <img src="screenshot.png" alt="Weather App Screenshot" width="300"/> |
 
 ## Requirements
 - Node.js (v16 or higher)
