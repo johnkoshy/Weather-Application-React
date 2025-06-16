@@ -94,14 +94,14 @@ function App() {
     // Re-fetch weather data if a location is already selected
     if (data.name) {
       axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${data.name}&units=${newUnit}&appid=8899465d3193e9d2936bf752c2e263f7`)
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${data.name}&units=${newUnit}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`)
         .then((response) => {
           setData(response.data);
           setError("");
 
           // Re-fetch forecast data
           axios
-            .get(`https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=${newUnit}&appid=8899465d3193e9d2936bf752c2e263f7`)
+            .get(`https://api.openweathermap.org/data/2.5/forecast?q=${data.name}&units=${newUnit}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`)
             .then((forecastResponse) => {
               const list = forecastResponse.data.list;
               const uniqueDates = new Map();
