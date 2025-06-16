@@ -28,8 +28,8 @@ function App() {
   };
 
   // API URLs for current weather and 5-day forecast using OpenWeatherMap
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${unit}&appid=8899465d3193e9d2936bf752c2e263f7`;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=${unit}&appid=8899465d3193e9d2936bf752c2e263f7`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${unit}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=${unit}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
 
   // Function to handle location search when user presses Enter
   const searchLocation = (event) => {
